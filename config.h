@@ -10,6 +10,27 @@
 /* Define to 1 if you have the <cppconn/config.h> header file. */
 /* #undef HAVE_CPPCONN_CONFIG_H */
 
+/* Define to 1 if you have the <cryptopp/adler32.h> header file. */
+#define HAVE_CRYPTOPP_ADLER32_H 1
+
+/* Define to 1 if you have the <cryptopp/base64.h> header file. */
+#define HAVE_CRYPTOPP_BASE64_H 1
+
+/* Define to 1 if you have the <cryptopp/cryptlib.h> header file. */
+#define HAVE_CRYPTOPP_CRYPTLIB_H 1
+
+/* Define to 1 if you have the <cryptopp/hex.h> header file. */
+#define HAVE_CRYPTOPP_HEX_H 1
+
+/* Define to 1 if you have the <cryptopp/hmac.h> header file. */
+#define HAVE_CRYPTOPP_HMAC_H 1
+
+/* Define to 1 if you have the <cryptopp/md5.h> header file. */
+#define HAVE_CRYPTOPP_MD5_H 1
+
+/* Define to 1 if you have the <cryptopp/sha.h> header file. */
+#define HAVE_CRYPTOPP_SHA_H 1
+
 /* Define to 1 if you have the `floor' function. */
 #define HAVE_FLOOR 1
 
@@ -21,6 +42,9 @@
 
 /* Define to 1 if you have the `gethostname' function. */
 #define HAVE_GETHOSTNAME 1
+
+/* Define to 1 if you have the <gmp.h> header file. */
+#define HAVE_GMP_H 1
 
 /* Define to 1 if you have the <inttypes.h> header file. */
 #define HAVE_INTTYPES_H 1
@@ -81,8 +105,11 @@
    */
 /* #undef HAVE_LIBBOOST_THREAD_MT */
 
-/* Define to 1 if you have the `crypto' library (-lcrypto). */
-#define HAVE_LIBCRYPTO 1
+/* Define to 1 if you have the `cryptopp' library (-lcryptopp). */
+#define HAVE_LIBCRYPTOPP 1
+
+/* Define to 1 if you have the `gmp' library (-lgmp). */
+#define HAVE_LIBGMP 1
 
 /* Define to 1 if you have the `lua' library (-llua). */
 /* #undef HAVE_LIBLUA */
@@ -141,21 +168,6 @@
 
 /* Define to 1 if you have the <netinet/in.h> header file. */
 #define HAVE_NETINET_IN_H 1
-
-/* Define to 1 if you have the <openssl/bn.h> header file. */
-#define HAVE_OPENSSL_BN_H 1
-
-/* Define to 1 if you have the <openssl/err.h> header file. */
-#define HAVE_OPENSSL_ERR_H 1
-
-/* Define to 1 if you have the <openssl/md5.h> header file. */
-#define HAVE_OPENSSL_MD5_H 1
-
-/* Define to 1 if you have the <openssl/rsa.h> header file. */
-#define HAVE_OPENSSL_RSA_H 1
-
-/* Define to 1 if you have the <openssl/sha.h> header file. */
-#define HAVE_OPENSSL_SHA_H 1
 
 /* Define to 1 if you have the `pow' function. */
 #define HAVE_POW 1

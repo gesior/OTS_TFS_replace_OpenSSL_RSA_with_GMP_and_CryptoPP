@@ -23,7 +23,7 @@ if LOGIN_SERVER
 MAYBE_LOGIN = gameservers.cpp gameservers.h
 endif
 
-theotxserver_SOURCES = account.h actions.cpp actions.h  baseevents.cpp baseevents.h beds.cpp \
+theotxserver_SOURCES = rsa.cpp rsa.h account.h actions.cpp actions.h  baseevents.cpp baseevents.h beds.cpp \
 	beds.h chat.cpp chat.h combat.cpp combat.h condition.cpp condition.h \
 	config.h configmanager.cpp configmanager.h connection.cpp connection.h \
 	const.h container.cpp container.h creature.cpp creature.h \

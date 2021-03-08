@@ -41,9 +41,6 @@
 
 #include <boost/config.hpp>
 #ifdef _MULTIPLATFORM77
-#include <openssl/rsa.h>
-#include <openssl/bn.h>
-#include <openssl/err.h>
 #endif
 #include "server.h"
 #ifdef __LOGIN_SERVER__
@@ -78,6 +75,7 @@
 #include "exception.h"
 #endif
 #include "textlogger.h"
+#include "rsa.h"
 
 #ifdef __NO_BOOST_EXCEPTIONS__
 #include <exception>
@@ -88,7 +86,7 @@ inline void boost::throw_exception(std::exception const & e)
 }
 #endif
 #ifdef _MULTIPLATFORM77
-RSA* g_RSA;
+RSA g_RSA;
 #endif
 ConfigManager g_config;
 Game g_game;
@@ -560,25 +558,10 @@ ServiceManager* services)
 	SendMessage(GUI::getInstance()->m_statusBar, WM_SETTEXT, 0, (LPARAM)">> Loading Password encryption:");
 	#endif
 	std::string encryptionType = asLowerCaseString(g_config.getString(ConfigManager::ENCRYPTION_TYPE));
-	if(encryptionType == "md5")
-	{
-		g_config.setNumber(ConfigManager::ENCRYPTION, ENCRYPTION_MD5);
-		std::clog << ">>> Using (MD5) encryption ... (done)." << std::endl;
-	}
-	else if(encryptionType == "sha1")
+	if(encryptionType == "sha1")
 	{
 		g_config.setNumber(ConfigManager::ENCRYPTION, ENCRYPTION_SHA1);
 		std::clog << ">>> Using (SHA1) encryption ... (done)." << std::endl;
-	}
-	else if(encryptionType == "sha256")
-	{
-		g_config.setNumber(ConfigManager::ENCRYPTION, ENCRYPTION_SHA256);
-		std::clog << ">>> Using (SHA256) encryption ... (done)." << std::endl;
-	}
-	else if(encryptionType == "sha512")
-	{
-		g_config.setNumber(ConfigManager::ENCRYPTION, ENCRYPTION_SHA512);
-		std::clog << ">>> Using (SHA512) encryption ... (done)." << std::endl;
 	}
 	else
 	{
@@ -594,35 +577,12 @@ ServiceManager* services)
 	#if defined(WINDOWS) && !defined(_CONSOLE)
 	SendMessage(GUI::getInstance()->m_statusBar, WM_SETTEXT, 0, (LPARAM)">> Loading RSA Key");
 	#endif
-	g_RSA = RSA_new();
+	std::clog << ">> Loading RSA key" << std::endl;
+	const char* p("14299623962416399520070177382898895550795403345466153217470516082934737582776038882967213386204600674145392845853859217990626450972452084065728686565928113");
+	const char* q("7630979195970404721891201847792002125535401292779123937207447574596692788513647179235335529307251350570728407373705564708871762033017096809910315212884101");
+	const char* d("46730330223584118622160180015036832148732986808519344675210555262940258739805766860224610646919605860206328024326703361630109888417839241959507572247284807035235569619173792292786907845791904955103601652822519121908367187885509270025388641700821735345222087940578381210879116823013776808975766851829020659073");
 
-	BN_dec2bn(&g_RSA->p, g_config.getString(ConfigManager::RSA_PRIME1).c_str());
-	BN_dec2bn(&g_RSA->q, g_config.getString(ConfigManager::RSA_PRIME2).c_str());
-	BN_dec2bn(&g_RSA->d, g_config.getString(ConfigManager::RSA_PRIVATE).c_str());
-	BN_dec2bn(&g_RSA->n, g_config.getString(ConfigManager::RSA_MODULUS).c_str());
-	BN_dec2bn(&g_RSA->e, g_config.getString(ConfigManager::RSA_PUBLIC).c_str());
-
-	// This check will verify keys set in config.lua
-	if(RSA_check_key(g_RSA))
-	{
-		// Ok, now we calculate a few things, dmp1, dmq1 and iqmp
-		BN_CTX* ctx = BN_CTX_new();
-		BN_CTX_start(ctx);
-
-		BIGNUM *r1 = BN_CTX_get(ctx), *r2 = BN_CTX_get(ctx);
-		BN_mod(g_RSA->dmp1, g_RSA->d, r1, ctx);
-		BN_mod(g_RSA->dmq1, g_RSA->d, r2, ctx);
-
-		BN_mod_inverse(g_RSA->iqmp, g_RSA->q, g_RSA->p, ctx);
-	}
-	else
-	{
-		ERR_load_crypto_strings();
-		std::stringstream s;
-
-		s << std::endl << "> OpenSSL failed - " << ERR_error_string(ERR_get_error(), NULL);
-		startupErrorMessage(s.str());
-	}
+	g_RSA.initialize(p, q, d);
 	#endif
 
 	std::clog << ">> Starting SQL connection" << std::endl;

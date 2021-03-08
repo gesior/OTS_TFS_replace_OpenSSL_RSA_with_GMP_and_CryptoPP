@@ -84,10 +84,7 @@ enum DatabaseEngine_t
 enum Encryption_t
 {
 	ENCRYPTION_PLAIN = 0,
-	ENCRYPTION_MD5,
 	ENCRYPTION_SHA1,
-	ENCRYPTION_SHA256,
-	ENCRYPTION_SHA512
 };
 
 enum GuildLevel_t

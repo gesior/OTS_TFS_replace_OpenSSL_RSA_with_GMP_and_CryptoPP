@@ -101,10 +101,7 @@ bool isValidAccountName(std::string text);
 bool isValidPassword(std::string text);
 bool isValidName(std::string text, bool forceUppercaseOnFirstLetter = true);
 
-std::string transformToMD5(const std::string &plainText, bool upperCase);
 std::string transformToSHA1(const std::string &plainText, bool upperCase);
-std::string transformToSHA256(const std::string &plainText, bool upperCase);
-std::string transformToSHA512(const std::string &plainText, bool upperCase);
 
 void _encrypt(std::string& str, bool upperCase);
 bool encryptTest(std::string plain, std::string& hash);
